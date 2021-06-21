@@ -6,8 +6,6 @@
 make run-native
 ```
 
-Make shure
-
 ## JVM
 
 ```bash
