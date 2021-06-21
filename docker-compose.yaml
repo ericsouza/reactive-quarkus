@@ -1,0 +1,47 @@
+version: '3.1'
+
+services:
+  reactive-quarkus-app-native:
+    image: ericsouza/reactive-quarkus-native
+    ports:
+    - "8080:8080"
+    networks:
+    - reactive-quarkus-network
+    depends_on:
+    - reactive-quarkus-db
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+  
+  reactive-quarkus-app-jvm:
+    image: ericsouza/reactive-quarkus-jvm
+    ports:
+      - "8081:8080"
+    networks:
+      - reactive-quarkus-network
+    depends_on:
+      - reactive-quarkus-db
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+
+  reactive-quarkus-db:
+    image: registry.docker.elo7aws.com.br/postgres:11.5
+    environment:
+      POSTGRES_USER: quarkus_test
+      POSTGRES_PASSWORD: quarkus_test
+      POSTGRES_DB: quarkus_test
+    ports:
+      - "5432:5432"
+    networks:
+      - reactive-quarkus-network
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+
+networks:
+  reactive-quarkus-network:
+    driver: bridge
